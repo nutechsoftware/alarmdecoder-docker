@@ -5,19 +5,19 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 
 ## Instructions
 
-Flash Raspbian to your SD Card (Jessie recommended)
+### Flash Raspbian to your SD Card (Jessie recommended)
 
-Boot your Raspberry Pi
+### Boot your Raspberry Pi
 
-Disable Serial Console: 
+### Disable Serial Console: 
 
 <p>sudo systemctl disable serial-getty@ttyAMA0.service</p>
 
-Enable uart: 
+### Enable uart: 
 
 <p>add "enable_uart=1" to /boot/config.txt</p>
 
-Disable serial console from boot:  
+### Disable serial console from boot:  
 
 <p>sudo sed -i 's/console=serial0,115200/ /g' /boot/cmdline.txt</p>
 
@@ -33,7 +33,7 @@ Disable serial console from boot:
 
 <p>sudo reboot</p>
 
-Install Docker as per Docker Instructions
+### Install Docker as per Docker Instructions:
 
 <p>sudo apt-get update</p>
 
@@ -57,10 +57,10 @@ Install Docker as per Docker Instructions
 
 <p>sudo service docker restart</p>
 
-Build docker container: 
+### Build docker container: 
 
 <p>docker build -t alarmdecoder alarmdecoder</p>
 
-Run your container: 
+### Run your container: 
 
 <p>docker run --restart unless-stopped --net="host" --privileged -d -ti -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 -p 443:443 -p 5000:5000 -p 10000:10000 --device=/dev/ttyAMA0 alarmdecoder /sbin/init</p>
