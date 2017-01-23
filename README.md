@@ -8,8 +8,9 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 ### Enable uart:
 
 <p>add "enable_uart=1" to /boot/config.txt</p>
+<p>echo "enable_uart=1" | sudo tee -a /boot/config.txt</p>
 
-###Install
+##Install
 
 <p>sudo chmod +x install.sh</p>
 
@@ -28,12 +29,12 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 ### Enable uart: 
 
 <p>add "enable_uart=1" to /boot/config.txt</p>
-
+<p>echo "enable_uart=1" | sudo tee -a /boot/config.txt</p>
 ### Disable serial console from boot:  
 
 <p>sudo sed -i 's/console=serial0,115200/ /g' /boot/cmdline.txt</p>
 
-<p>sudo sed -i 's/kgdboc=ttyAMA0,115200/ /g' /boot/cmdline.txt
+<p>sudo sed -i 's/kgdboc=ttyAMA0,115200/ /g' /boot/cmdline.txt</p>
 
 <p>sudo apt-get update</p>
 
@@ -53,7 +54,7 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 
 <p>sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D</p>
 
-<p>sudo echo "dep https://apt.dockerproject.org/repo raspbian-jessie main" > /etc/apt/sources.list.d/docker.list</p>
+<p>echo "dep https://apt.dockerproject.org/repo raspbian-jessie main" | sudo tee -a /etc/apt/sources.list.d/docker.list</p>
 
 <p>sudo apt-get update</p>
 

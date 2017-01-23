@@ -2,6 +2,8 @@
 echo "Reading config...." >&2
 source config.cfg
 
+echo "enable_uart=1" | sudo tee -a /boot/config.txt
+
 echo "Checking if uart enabled...." >&2
 if sudo grep "enable_uart=1" /boot/config.txt
 then
@@ -14,6 +16,7 @@ then
     sudo echo "alarmdecoder" > /etc/hostname
 
     sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    echo "deb https://apt.dockerproject.org/repo raspbian-jessie main" | sudo tee -a /etc/apt/sources.list.d/docker.list
     sudo apt-get update
     sudo apt-get install docker-engine
     sudo systemctl enable docker.service

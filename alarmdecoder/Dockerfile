@@ -3,7 +3,6 @@ FROM resin/rpi-raspbian:jessie
 MAINTAINER AlarmDecoder <ad2usb@support.nutech.com>
 
 RUN sudo mkdir -p /etc/ser2sock
-VOLUME /opt /etc/ser2sock
 
 #disable service
 RUN sudo systemctl disable serial-getty@ttyAMA0.service
@@ -218,6 +217,8 @@ RUN sudo chown -R pi:pi /opt/alarmdecoder-webapp
 EXPOSE 80 443 5000 10000
 
 USER pi
+
+VOLUME /opt /etc/ser2sock
 
 # Define default command
 CMD ["bash"]
