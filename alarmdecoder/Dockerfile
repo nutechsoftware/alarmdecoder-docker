@@ -2,7 +2,8 @@
 FROM resin/rpi-raspbian:jessie
 MAINTAINER AlarmDecoder <ad2usb@support.nutech.com>
 
-VOLUME /opt /etc
+RUN sudo mkdir -p /etc/ser2sock
+VOLUME /opt /etc/ser2sock
 
 #disable service
 RUN sudo systemctl disable serial-getty@ttyAMA0.service
@@ -76,10 +77,9 @@ WORKDIR /opt/ser2sock
 RUN ./configure
 RUN make
 RUN sudo cp ser2sock /usr/local/bin/
-RUN sudo cp -R etc/ser2sock /etc/
+RUN sudo cp -R etc/ser2sock/* /etc/ser2sock/
 RUN sudo cp init/ser2sock /etc/init.d/
 RUN sudo update-rc.d ser2sock defaults
-#RUN sudo /etc/init.d/ser2sock start
 
 WORKDIR /opt/alarmdecoder
 RUN sudo python setup.py install
