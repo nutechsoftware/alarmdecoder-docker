@@ -3,7 +3,19 @@
 ## Summary
 This is an official Dockerfile for setting up the AlarmDecoder Webapp on your own Raspberry Pi
 
-## Instructions
+## Automatic Instructions
+
+### Enable uart:
+
+<p>add "enable_uart=1" to /boot/config.txt</p>
+
+###Install
+
+<p>sudo chmod +x install.sh</p>
+
+<p>./install.sh</p>
+
+## Manual Instructions
 
 ### Flash Raspbian to your SD Card (Jessie recommended)
 
