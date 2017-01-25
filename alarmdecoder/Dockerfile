@@ -4,12 +4,15 @@ MAINTAINER AlarmDecoder <ad2usb@support.nutech.com>
 
 RUN sudo mkdir -p /etc/ser2sock
 
+RUN echo "pi\tALL=(ALL) ALL" | sudo tee -a /etc/sudoers
+
 #disable service
 RUN sudo systemctl disable serial-getty@ttyAMA0.service
 
 # Install dependencies
 RUN sudo apt-get update && sudo apt-get install -y \
     wget \
+    unzip \
     minicom \
     telnet \
     libssl-dev \
@@ -64,6 +67,22 @@ RUN sudo echo -e '<?xml version="1.0" standalone="no"?>\n\
 # Define working directory
 WORKDIR /opt
 
+RUN sudo rm /etc/default/locale
+
+RUN echo 'LANG="en_US.UTF-8"' | sudo tee -a /etc/default/locale
+RUN echo 'LC_NUMERIC="en_US.UTF-8"' | sudo tee -a /etc/default/locale
+RUN echo 'LC_MONETARY="en_US.UTF-8"' | sudo tee -a /etc/default/locale
+RUN echo 'LC_PAPER="en_US.UTF-8"' | sudo tee -a /etc/default/locale
+RUN echo 'LC_NAME="en_US.UTF-8"' | sudo tee -a /etc/default/locale
+RUN echo 'LC_ADDRESS="en_US.UTF-8"' | sudo tee -a /etc/default/locale
+RUN echo 'LC_TELEPHONE="en_US.UTF-8"' | sudo tee -a /etc/default/locale
+RUN echo 'LC_MEASUREMENT="en_US.UTF-8"' | sudo tee -a /etc/default/locale
+RUN echo 'LC_IDENTIFICATION="en_US.UTF-8"' | sudo tee -a /etc/default/locale
+RUN echo "en_US.UTF-8 UTF-8" | sudo tee -a /etc/locale.gen
+RUN sudo ln -s /etc/locale/alias /usr/share/locale/locale.alias
+#RUN sudo dpkg-reconfigure locales
+RUN sudo locale-gen
+
 RUN sudo pip install setuptools
 #install ser2sock and alarmdecoder python library
 RUN sudo git clone http://github.com/nutechsoftware/ser2sock.git
@@ -117,6 +136,8 @@ RUN sudo ln -s /usr/local/bin/gunicorn /usr/bin/gunicorn
 RUN sudo echo "nginx hold" | sudo dpkg --set-selections
 RUN sudo echo "gunicorn hold" | sudo dpkg --set-selections
 
+RUN sudo pip install httplib2
+
 #install webapp
 WORKDIR /opt
 RUN sudo git clone http://github.com/nutechsoftware/alarmdecoder-webapp.git
@@ -128,6 +149,7 @@ RUN git checkout master
 RUN sudo pip install -r requirements.txt
 WORKDIR /opt/alarmdecoder-webapp/contrib/opencv
 RUN sudo ./opencv.sh
+RUN sudo rm -r OpenCV
 WORKDIR /opt/alarmdecoder-webapp
 RUN python manage.py initdb
 RUN sudo cp contrib/nginx/alarmdecoder /etc/nginx/sites-available/
@@ -218,7 +240,7 @@ EXPOSE 80 443 5000 10000
 
 USER pi
 
-VOLUME /opt /etc/ser2sock
+VOLUME /opt /etc/ser2sock /var/log
 
 # Define default command
 CMD ["bash"]

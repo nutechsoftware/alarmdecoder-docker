@@ -11,9 +11,9 @@ then
     sudo sed -i 's/console=serial0,115200/ /g' /boot/cmdline.txt
     sudo sed -i 's/kgdbog=ttyAMA0,115200/ /g' /boot/cmdline.txt
     sudo apt-get update
-    sudo apt-get install rpi-update apt-transport-https ca-certificates
+    sudo apt-get install rpi-update apt-transport-https ca-certificates vim
     sudo rpi-update
-    sudo echo "alarmdecoder" > /etc/hostname
+    echo "alarmdecoder" | sudo tee -a /etc/hostname
 
     sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
     echo "deb https://apt.dockerproject.org/repo raspbian-jessie main" | sudo tee -a /etc/apt/sources.list.d/docker.list
@@ -31,6 +31,15 @@ then
     if [ $ret_code != 0 ]
     then
         echo "Failed to build docker container..." >&2
+        exit $ret_code
+    fi
+
+    sudo docker run --restart $RESTART_PARAM -v /usr/local/bin:/target jpetazzo/nsenter
+
+    ret_code = $?
+    if [ $ret_code != 0 ]
+    then
+        echo "Failed to fetch and run nsenter...." >&2
         exit $ret_code
     fi
 

@@ -8,13 +8,23 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 ### Enable uart:
 
 <p>add "enable_uart=1" to /boot/config.txt</p>
+
 <p>echo "enable_uart=1" | sudo tee -a /boot/config.txt</p>
 
-##Install
+## Install
+
+### Build Method
 
 <p>sudo chmod +x install.sh</p>
 
 <p>./install.sh</p>
+
+### Pull Method
+
+<p>sudo chmod +x pull.sh</p>
+
+<p>./pull.sh</p>
+
 
 ## Manual Instructions
 
@@ -74,6 +84,16 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 
 <p>docker build -t alarmdecoder alarmdecoder</p>
 
+### Install nsenter
+
+<p>docker run --restart unless-stopped -v /usr/local/bin:/target jpetazzo/nsenter
+
 ### Run your container: 
 
 <p>docker run --restart unless-stopped --net="host" --privileged -d -ti -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 -p 443:443 -p 5000:5000 -p 10000:10000 --device=/dev/ttyS0 alarmdecoder /sbin/init</p>
+
+### Enter your container:
+
+<p>PID=$(docker inspect --format {{.State.Pid}} alarmdecoder</p>
+
+<p>nsenter --target $PID --mount --uts --ipc --net --pid</p>
