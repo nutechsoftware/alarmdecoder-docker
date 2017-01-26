@@ -19,7 +19,7 @@ then
         exit 1
     fi
     sudo rpi-update
-    echo "alarmdecoder-docker" | sudo tee /etc/hostname
+    echo "alarmdecoder" | sudo tee /etc/hostname
 
     sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
     echo "deb https://apt.dockerproject.org/repo raspbian-jessie main" | sudo tee /etc/apt/sources.list.d/docker.list
