@@ -4,13 +4,14 @@ MAINTAINER AlarmDecoder <ad2usb@support.nutech.com>
 
 RUN sudo mkdir -p /etc/ser2sock
 
-RUN echo "pi\tALL=(ALL) ALL" | sudo tee -a /etc/sudoers
+RUN echo "pi\tALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 
 #disable service
 RUN sudo systemctl disable serial-getty@ttyAMA0.service
 
 # Install dependencies
 RUN sudo apt-get update && sudo apt-get install -y \
+    supervisor \
     wget \
     unzip \
     minicom \
@@ -242,6 +243,14 @@ USER pi
 
 VOLUME /opt /etc/ser2sock /var/log
 
+RUN mkdir -p /var/log/supervisor
+RUN sudo chmod -R 777 /var/log/supervisor
+
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+#Chage start args in ser2sock to run as pi user
+RUN sudo sed -i 's/EXTRA_START_ARGS=/#EXTRA_START_ARGS=/g' /etc/init.d/ser2sock
+RUN sudo sed -i 's/##EXTRA_START_ARGS=/EXTRA_START_ARGS=/g' /etc/init.d/ser2sock
+
 # Define default command
-CMD ["bash"]
-ENTRYPOINT sudo /etc/init.d/dbus start && sudo /etc/init.d/avahi-daemon start && sudo /etc/init.d/ser2sock start && sudo /etc/init.d/gunicorn start && sudo /etc/init.d/nginx start && /bin/bash
+CMD ["sudo", "/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
