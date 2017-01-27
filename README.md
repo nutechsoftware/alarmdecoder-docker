@@ -15,11 +15,15 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 
 ### Build Method
 
+#### This method builds the dockerfile image locally
+
 <p>sudo chmod +x install.sh</p>
 
 <p>./install.sh</p>
 
 ### Pull Method
+
+#### This method pulls an alarmdecoder image from dockerhub
 
 <p>sudo chmod +x pull.sh</p>
 

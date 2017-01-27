@@ -122,7 +122,6 @@ RUN sudo make install
 RUN sudo mkdir -p /var/www
 RUN sudo cp html/* /var/www
 RUN sudo mkdir -p /etc/nginx/ssl
-RUN sudo openssl req -x509 -nodes -days 3650 -sha256 -newkey rsa:4096 -keyout /etc/nginx/ssl/alarmdecoder.key -out /etc/nginx/ssl/alarmdecoder.crt -batch -subj "/C=US/O=AlarmDecoder/CN=alarmdecoder"
 
 WORKDIR /home/pi
 #cleanup nginx droppings
@@ -247,6 +246,8 @@ RUN mkdir -p /var/log/supervisor
 RUN sudo chmod -R 777 /var/log/supervisor
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY gen_certs.sh /home/pi/gen_certs.sh
+RUN sudo chmod +x /home/pi/gen_certs.sh
 
 #Chage start args in ser2sock to run as pi user
 RUN sudo sed -i 's/EXTRA_START_ARGS=/#EXTRA_START_ARGS=/g' /etc/init.d/ser2sock
