@@ -240,7 +240,7 @@ EXPOSE 80 443 5000 10000
 
 USER pi
 
-VOLUME /opt /etc/ser2sock /var/log
+VOLUME /opt /etc/ser2sock /etc/nginx /var/log
 
 RUN mkdir -p /var/log/supervisor
 RUN sudo chmod -R 777 /var/log/supervisor
