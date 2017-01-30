@@ -249,6 +249,11 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY gen_certs.sh /home/pi/gen_certs.sh
 RUN sudo chmod +x /home/pi/gen_certs.sh
 
+RUN sudo apt-get install -y logrotate
+
+COPY start_services.sh /usr/local/bin/start_services.sh
+RUN sudo chmod +x /usr/local/bin/start_services.sh
+
 #Chage start args in ser2sock to run as pi user
 RUN sudo sed -i 's/EXTRA_START_ARGS=/#EXTRA_START_ARGS=/g' /etc/init.d/ser2sock
 RUN sudo sed -i 's/##EXTRA_START_ARGS=/EXTRA_START_ARGS=/g' /etc/init.d/ser2sock
