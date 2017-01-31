@@ -48,12 +48,7 @@ fi
 echo "Fetching nsenter..." >&2
 sudo docker run --restart $RESTART_PARAM -v /usr/local/bin:/target jpetazzo/nsenter
 
-if [ $? != 0 ]; then
-    echo "Failed to install nsenter..." >&2
-    exit 1
-fi
-
-docker run --restart $RESTART_PARAM --net=$NET_PARAM --device=$DEVICE --privileged -d -ti -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p $EXTERNAL_HTTP_PORT:$INTERNAL_HTTP_PORT -p $EXTERNAL_HTTPS_PORT:$INTERNAL_HTTPS_PORT -p $EXTERNAL_WORKER_PORT:$INTERNAL_WORKER_PORT -p $EXTERNAL_SER2SOCK_PORT:$INTERNAL_SER2SOCK_PORT alarmdecoder
+docker run --restart $RESTART_PARAM --net=$NET_PARAM --device=$DEVICE --privileged -d -ti -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p $EXTERNAL_HTTP_PORT:$INTERNAL_HTTP_PORT -p $EXTERNAL_HTTPS_PORT:$INTERNAL_HTTPS_PORT -p $EXTERNAL_WORKER_PORT:$INTERNAL_WORKER_PORT -p $EXTERNAL_SER2SOCK_PORT:$INTERNAL_SER2SOCK_PORT alarmdecoder/alarmdecoder
 
 if [ $? != 0 ]; then
     echo "Failed to run docker container..." >&2
