@@ -7,6 +7,7 @@ echo "enable_uart=1" | sudo tee -a /boot/config.txt
 echo "disabling serial console..." >&2
 sudo sed -i 's/console=serial0,115200/ /g' /boot/cmdline.txt
 sudo sed -i 's/kgdbog=ttyAMA0,115200/ /g' /boot/cmdline.txt
+sudo systemctl disable serial-getty@ttyAMA0.service
 echo "preparing dependencies..." >&2
 
 sudo apt-get update

@@ -18,6 +18,8 @@ then
         echo "Unable to install some required packages...." >&2
         exit 1
     fi
+
+    sudo systemctl disable serial-getty@ttyAMA0.service
     sudo rpi-update
     echo "alarmdecoder" | sudo tee /etc/hostname
 
