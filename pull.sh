@@ -10,6 +10,7 @@ sudo sed -i 's/kgdbog=ttyAMA0,115200/ /g' /boot/cmdline.txt
 sudo systemctl disable serial-getty@ttyAMA0.service
 echo "preparing dependencies..." >&2
 
+sudo sed -i 's/frontend=pager/frontend=text/g' /etc/apt/listchanges.conf
 sudo apt-get update
 sudo apt-get install -y --force-yes rpi-update apt-transport-https ca-certificates vim
 
@@ -39,20 +40,24 @@ sudo service docker restart
 
 echo "Pulling latest alarmdecoder image..." >&2
 
-docker pull alarmdecoder/alarmdecoder:latest
+sudo docker pull alarmdecoder/alarmdecoder:latest
 
 if [ $? != 0 ]; then
     echo "Failed to pull alarmdecoder image..." >&2
     exit 1
 fi
+sudo hostname alarmdecoder
+sudo sed -i 's/raspberrypi/alarmdecoder/g' /etc/hosts
+sudo /etc/init.d/hostname.sh start
 
 echo "Fetching nsenter..." >&2
 sudo docker run --restart $RESTART_PARAM -v /usr/local/bin:/target jpetazzo/nsenter
 
-docker run --restart $RESTART_PARAM --net=$NET_PARAM --device=$DEVICE --privileged -d -ti -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p $EXTERNAL_HTTP_PORT:$INTERNAL_HTTP_PORT -p $EXTERNAL_HTTPS_PORT:$INTERNAL_HTTPS_PORT -p $EXTERNAL_WORKER_PORT:$INTERNAL_WORKER_PORT -p $EXTERNAL_SER2SOCK_PORT:$INTERNAL_SER2SOCK_PORT alarmdecoder/alarmdecoder
+echo "Starting alarmdecoder container..." >&2
+sudo docker run --restart $RESTART_PARAM --net="host" --device=$DEVICE --privileged -d -ti -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p $EXTERNAL_HTTP_PORT:$INTERNAL_HTTP_PORT -p $EXTERNAL_HTTPS_PORT:$INTERNAL_HTTPS_PORT -p $EXTERNAL_WORKER_PORT:$INTERNAL_WORKER_PORT -p $EXTERNAL_SER2SOCK_PORT:$INTERNAL_SER2SOCK_PORT alarmdecoder/alarmdecoder
 
 if [ $? != 0 ]; then
-    echo "Failed to run docker container..." >&2
+    echo "Failed to run alarmdecoder docker container..." >&2
     exit 1
 else
     echo "Seems everything went OK - please reboot to finish..." >&2

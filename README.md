@@ -5,12 +5,6 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 
 ## Automatic Instructions
 
-### Enable uart:
-
-<p>add "enable_uart=1" to /boot/config.txt</p>
-
-<p>echo "enable_uart=1" | sudo tee -a /boot/config.txt</p>
-
 ## Install
 
 ### Build Method
@@ -90,16 +84,16 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 
 ### Install nsenter
 
-<p>docker run --restart unless-stopped -v /usr/local/bin:/target jpetazzo/nsenter
+<p>sudo docker run --restart unless-stopped -v /usr/local/bin:/target jpetazzo/nsenter
 
 ### Run your container: 
 
-<p>docker run --restart unless-stopped --net="host" --privileged -d -ti -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 -p 443:443 -p 5000:5000 -p 10000:10000 --device=/dev/ttyS0 alarmdecoder</p>
+<p>sudo docker run --restart unless-stopped --net="host" --privileged -d -ti -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 -p 443:443 -p 5000:5000 -p 10000:10000 --device=/dev/ttyS0 alarmdecoder</p>
 
 ### Enter your container:
 
-<p>docker ps -a</p> -- select your alarmdecoder container ID
+<p>sudo docker ps -a</p> -- select your alarmdecoder container ID
 
-<p>PID=$(docker inspect --format {{.State.Pid}} alarmdecoder_container_id</p>
+<p>PID=$(sudo docker inspect --format {{.State.Pid}} alarmdecoder_container_id)</p>
 
-<p>nsenter --target $PID --mount --uts --ipc --net --pid</p>
+<p>sudo nsenter --target $PID --mount --uts --ipc --net --pid</p>
