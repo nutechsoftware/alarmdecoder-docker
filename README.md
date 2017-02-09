@@ -84,7 +84,7 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 
 ### Install nsenter
 
-<p>sudo docker run --restart unless-stopped -v /usr/local/bin:/target jpetazzo/nsenter
+<p>sudo docker run --restart unless-stopped -v /usr/local/bin:/target jpetazzo/nsenter</p>
 
 ### Run your container: 
 
