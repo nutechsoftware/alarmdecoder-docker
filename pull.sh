@@ -18,7 +18,6 @@ if [ $? != 0 ]; then
     echo "Unable to install some required packages..." >&2
     exit 1
 fi
-sudo rpi-update
 
 echo "alarmdecoder" | sudo tee /etc/hostname
 

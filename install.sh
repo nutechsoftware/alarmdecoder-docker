@@ -21,7 +21,6 @@ then
     fi
 
     sudo systemctl disable serial-getty@ttyAMA0.service
-    sudo rpi-update
     echo "alarmdecoder" | sudo tee /etc/hostname
     sudo sed -i 's/raspberrypi/alarmdecoder/g' /etc/hosts
     sudo /etc/init.d/hostname.sh start

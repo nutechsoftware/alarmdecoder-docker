@@ -46,10 +46,6 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 
 <p>sudo apt-get update</p>
 
-<p>sudo apt-get install rpi-update</p>
-
-<p>sudo rpi-update</p>
-
 <p>sudo echo "alarmdecoder" > /etc/hostname</p>
 
 <p>sudo reboot</p>
