@@ -22,7 +22,6 @@ RUN sudo apt-get update && sudo apt-get install -y \
     avahi-daemon \
     libffi-dev \
     screen \
-    dosfstools \
     nginx \
     curl \
     build-essential \
