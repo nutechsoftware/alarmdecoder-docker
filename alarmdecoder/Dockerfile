@@ -64,8 +64,6 @@ RUN sudo echo -e '<?xml version="1.0" standalone="no"?>\n\
 # Define working directory
 WORKDIR /opt
 
-RUN sudo rm /etc/default/locale
-
 RUN echo 'LANG=C.UTF-8' | sudo tee /etc/default/locale
 RUN sudo ln -s /etc/locale/alias /usr/share/locale/locale.alias
 #RUN sudo dpkg-reconfigure locales
