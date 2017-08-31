@@ -45,6 +45,7 @@ if [ $? != 0 ]; then
     echo "Failed to pull alarmdecoder image..." >&2
     exit 1
 fi
+
 sudo hostname alarmdecoder
 sudo sed -i 's/raspberrypi/alarmdecoder/g' /etc/hosts
 sudo /etc/init.d/hostname.sh start
