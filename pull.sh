@@ -21,19 +21,28 @@ fi
 
 echo "alarmdecoder" | sudo tee /etc/hostname
 
-sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-echo "deb https://apt.dockerproject.org/repo raspbian-jessie main" | sudo tee /etc/apt/sources.list.d/docker.list
-echo "installing docker-engine..." >&2
-sudo apt-get update
-sudo apt-get install -y --force-yes docker-engine
+DEBIAN_VERSION=$(awk 'BEGIN { FS = "" } { print $1 }' /etc/debian_version)
+if [ $DEBIAN_VERSION -lt 9 ]; then
+    sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    echo "deb https://apt.dockerproject.org/repo raspbian-jessie main" | sudo tee /etc/apt/sources.list.d/docker.list
+    echo "installing docker-engine..." >&2
+    sudo apt-get update
+    sudo apt-get install -y --force-yes docker-engine
+else
+    sudo apt-get install -y --force-yes docker.io
+fi
 
 if [ $? != 0 ]; then
     echo "Failed to install docker-engine...." >&2
     exit 1
 fi
+
+if [ $DEBIAN_VERSION -lt 9 ]; then
+   sudo groupadd docker
+fi
+
 sudo systemctl enable docker.service
 sudo service docker start
-sudo groupadd docker
 sudo gpasswd -a ${USER} docker
 sudo service docker restart
 
