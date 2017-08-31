@@ -13,7 +13,7 @@ then
 
     sudo sed -i 's/frontend=pager/frontend=text/g' /etc/apt/listchanges.conf
     sudo apt-get update
-    sudo apt-get install -y --force-yes rpi-update apt-transport-https ca-certificates vim
+    sudo apt-get install -y --force-yes rpi-update apt-transport-https ca-certificates
 
     if [ $? != 0 ]; then
         echo "Unable to install some required packages...." >&2

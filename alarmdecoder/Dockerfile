@@ -25,7 +25,6 @@ RUN sudo apt-get update && sudo apt-get install -y \
     locales \
     dosfstools \
     nginx \
-    vim \
     curl \
     build-essential \
     libpcre3-dev \
