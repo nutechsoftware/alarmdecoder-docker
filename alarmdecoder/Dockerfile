@@ -35,7 +35,6 @@ RUN sudo apt-get update && sudo apt-get install -y \
     sendmail \
     sqlite3 \
     git \
-    rpi-update \
     miniupnpc \
     python2.7 \
     python2.7-dev \
@@ -69,19 +68,9 @@ WORKDIR /opt
 
 RUN sudo rm /etc/default/locale
 
-RUN echo 'LANG="en_US.UTF-8"' | sudo tee -a /etc/default/locale
-RUN echo 'LC_NUMERIC="en_US.UTF-8"' | sudo tee -a /etc/default/locale
-RUN echo 'LC_MONETARY="en_US.UTF-8"' | sudo tee -a /etc/default/locale
-RUN echo 'LC_PAPER="en_US.UTF-8"' | sudo tee -a /etc/default/locale
-RUN echo 'LC_NAME="en_US.UTF-8"' | sudo tee -a /etc/default/locale
-RUN echo 'LC_ADDRESS="en_US.UTF-8"' | sudo tee -a /etc/default/locale
-RUN echo 'LC_TELEPHONE="en_US.UTF-8"' | sudo tee -a /etc/default/locale
-RUN echo 'LC_MEASUREMENT="en_US.UTF-8"' | sudo tee -a /etc/default/locale
-RUN echo 'LC_IDENTIFICATION="en_US.UTF-8"' | sudo tee -a /etc/default/locale
-RUN echo "en_US.UTF-8 UTF-8" | sudo tee -a /etc/locale.gen
+RUN echo 'LANG=C.UTF-8' | sudo tee /etc/default/locale
 RUN sudo ln -s /etc/locale/alias /usr/share/locale/locale.alias
 #RUN sudo dpkg-reconfigure locales
-RUN sudo locale-gen
 
 RUN sudo pip install setuptools
 #install ser2sock and alarmdecoder python library
@@ -102,15 +91,11 @@ RUN sudo update-rc.d ser2sock defaults
 WORKDIR /opt/alarmdecoder
 RUN sudo python setup.py install
 
-#configurations
-RUN sudo echo "enable_uart=1" >> /boot/config.txt
-RUN sudo rpi-update
-
 #install nginx by source
 RUN sudo service nginx stop
 RUN sudo apt-get -y remove nginx nginx-full
 RUN sudo apt-get clean
-ENV VERSION 1.7.4
+ENV VERSION 1.12.1
 WORKDIR /home/pi
 RUN curl http://nginx.org/download/nginx-$VERSION.tar.gz | tar zxvf -
 WORKDIR /home/pi/nginx-$VERSION
