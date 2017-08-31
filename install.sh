@@ -4,7 +4,7 @@ source config.cfg
 
 echo "enable_uart=1" | sudo tee -a /boot/config.txt
 
-echo "Checking if uart enabled...." >&2
+echo "Checking if the uart is enabled...." >&2
 if sudo grep "enable_uart=1" /boot/config.txt
 then
     echo "disabling serial console..." >&2
