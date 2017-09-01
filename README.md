@@ -84,7 +84,7 @@ This is an official Dockerfile for setting up the AlarmDecoder Webapp on your ow
 
 ### Run your container: 
 
-<p>sudo docker run --restart unless-stopped --net="host" --privileged -d -ti -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 -p 443:443 -p 5000:5000 -p 10000:10000 --device=/dev/ttyS0 alarmdecoder</p>
+<p>sudo docker run --restart unless-stopped --net="host" --privileged -d -ti -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 -p 443:443 -p 5000:5000 -p 10000:10000 --device=/dev/serial0 alarmdecoder</p>
 
 ### Enter your container:
 
