@@ -54,7 +54,7 @@ sudo service docker start
 sudo gpasswd -a ${USER} docker
 sudo service docker restart
 
-docker build -t alarmdecoder alarmdecoder
+sudo docker build -t alarmdecoder alarmdecoder
 
 if [ $? != 0 ]; then
     echo "Failed to build docker container..." >&2
