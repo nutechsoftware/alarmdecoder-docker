@@ -68,7 +68,10 @@ RUN echo 'LANG=C.UTF-8' | sudo tee /etc/default/locale
 RUN sudo ln -s /etc/locale/alias /usr/share/locale/locale.alias
 #RUN sudo dpkg-reconfigure locales
 
-RUN sudo pip install setuptools
+#make sure pip and setuptools are the latest available
+RUN sudo pip install --upgrade setuptools
+RUN sudo pip install --upgrade pip
+
 #install ser2sock and alarmdecoder python library
 RUN sudo git clone http://github.com/nutechsoftware/ser2sock.git
 RUN sudo git clone http://github.com/nutechsoftware/alarmdecoder.git
@@ -109,8 +112,7 @@ RUN sudo rm -r nginx-$VERSION
 
 #upgrade gunicorn, hold packages from apt
 RUN sudo pip install gunicorn --upgrade
-RUN sudo rm /usr/bin/gunicorn
-RUN sudo ln -s /usr/local/bin/gunicorn /usr/bin/gunicorn
+RUN sudo ln -sf /usr/local/bin/gunicorn /usr/bin/gunicorn
 
 #hold packages so apt does not overwrite
 RUN sudo echo "nginx hold" | sudo dpkg --set-selections
