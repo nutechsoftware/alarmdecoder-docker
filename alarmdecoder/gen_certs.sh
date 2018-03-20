@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -e "/etc/nginx/ssl/alarmdecoder.crt" ] && [ -e "/etc/nginx/ssl/alarmdecoder.key"]; then
+if [ -e "/etc/nginx/ssl/alarmdecoder.crt" ] && [ -e "/etc/nginx/ssl/alarmdecoder.key" ]; then
     echo "Certs already exists...." >&2
     exit 0
 else
