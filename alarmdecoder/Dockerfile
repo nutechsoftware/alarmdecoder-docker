@@ -239,6 +239,7 @@ RUN sudo chmod +x /usr/local/bin/start_services.sh
 #Chage start args in ser2sock to run as pi user
 RUN sudo sed -i 's/EXTRA_START_ARGS=/#EXTRA_START_ARGS=/g' /etc/init.d/ser2sock
 RUN sudo sed -i 's/##EXTRA_START_ARGS=/EXTRA_START_ARGS=/g' /etc/init.d/ser2sock
+RUN sudo sed -i 's/#RUN_AS=.*/RUN_AS=pi:pi/g' /etc/init.d/ser2sock
 
 # Define default command
 CMD ["sudo", "/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
